@@ -19,7 +19,7 @@ export function fetchJsonWithAuthInfo(url: string, method: HTTPMethod, data: Obj
         method,
         mode: 'no-cors',
         cache: 'no-cache',
-        credentials: 'same-origin',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
@@ -34,15 +34,20 @@ export function fetchJsonWithAuthInfo(url: string, method: HTTPMethod, data: Obj
         method,
         mode: 'no-cors',
         cache: 'no-cache',
-        credentials: 'same-origin',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Basic ${btoa(`${username}:${password}`)}`
+            // Authorization: `Basic ${btoa(`${username}:${password}`)}`
         },
         redirect: 'follow',
         referrer: 'no-referrer',
-        body: method === 'GET' ? undefined : JSON.stringify(data),
+        // body: method === 'GET' ? undefined : JSON.stringify(data),
     })
-    .then(response => response.json());
+    .then(response => {
+        try {
+            return response.json()
+        } catch {
+            return response
+        }
+    });
 }
