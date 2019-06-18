@@ -1,5 +1,10 @@
 import { devBaseUrl, prodBaseUrl } from './constants';
-import { fetchJson } from './fetch';
+import { fetchJson, fetchJsonWithAuthInfo } from './fetch';
+import { IAuthInfo } from './types';
+
+export function loadUsersWithAuthInfo(authInfo: IAuthInfo) {
+    return fetchJsonWithAuthInfo(`${getBaseUrl()}/api/v1/users`, 'GET', {}, authInfo);
+}
 
 export function loadUsers() {
     return fetchJson(`${getBaseUrl()}/api/v1/users`, 'GET');
