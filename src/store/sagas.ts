@@ -3,7 +3,7 @@ import { INITIALIZE_APP } from './constants';
 import { loadUsers } from '../network/client';
 
 function* initialize(): IterableIterator<void> {
-    console.log('loading users...');
+    console.log('loading user...');
     loadUsers();
 }
 

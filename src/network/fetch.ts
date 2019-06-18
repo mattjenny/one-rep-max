@@ -5,13 +5,11 @@ export function fetchJson(url: string, method: HTTPMethod, data: Object = {}): P
         method,
         mode: 'cors',
         cache: 'no-cache',
-        credentials: 'include',
         headers: {
-            'Access-Control-Allow-Origin': 'http://localhost:3000',
             'Content-Type': 'application/json',
+            'Authorization': 'Basic ', // Prod
+            'Accept': 'application/json',
         },
-        redirect: 'follow',
-        referrer: 'no-referrer',
         body: method === 'GET' ? undefined : JSON.stringify(data),
     })
     .then(response => {
