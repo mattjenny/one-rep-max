@@ -3,41 +3,40 @@ import {
     call,
     fork,
     put,
-    select,
     takeEvery,
 } from 'redux-saga/effects';
-import { INITIALIZE_APP } from './constants';
-import { AuthManager } from '../auth/AuthManager';
+import { INITIALIZE_APP, CLEAR_CACHED_USER_DATA } from './constants';
 import { NetworkClient } from '../network/client';
 import {
+    InitializeAppAction,
+    setUser,
     setExercises,
     setWorkouts,
     setSingleSets,
 } from './actions';
-import {
-    IState,
-    IWorkout,
-} from './types';
-
+import { IWorkout } from './types';
 import {
     toExercise,
     toWorkout,
     toSingleSet,
 } from './util';
+import { ISingleSetRaw } from '../network/types';
 
-function* initialize(): IterableIterator<any> {
+function* initialize(action: InitializeAppAction): IterableIterator<any> {
     try {
-        // If user is already authenticated, load the user
-        if (AuthManager.isAuthenticated()) {
-            const userId = yield select((state: IState) => state.user && state.user.id)
-
-            yield fork(loadExercises);
-            yield fork(loadWorkouts, { userId });
-        }
+        yield fork(loadExercises);
+        yield fork(loadWorkouts, { userId: action.userId });
     } catch (e) {
         // TODO error state
         console.error(e);
     }
+}
+
+function* clearCachedUserData(): IterableIterator<any> {
+    yield put(setWorkouts([]));
+    yield put(setExercises([]));
+    yield put(setSingleSets([]));
+    yield put(setUser(undefined));
 }
 
 function* loadExercises(): IterableIterator<any> {
@@ -57,8 +56,8 @@ function* loadWorkouts(action: { userId: number }): IterableIterator<any> {
         yield put(setWorkouts(workouts));
 
         const workoutRequests = workouts.map((workout: IWorkout) => call(NetworkClient.getUserWorkoutSingleSets, action.userId, workout.id));
-        const singleSets = yield all(workoutRequests);
-        yield put(setSingleSets(singleSets.map(toSingleSet)));
+        const singleSets: Array<Array<ISingleSetRaw>> = yield all(workoutRequests);
+        yield put(setSingleSets(singleSets.flatMap((workoutSets: Array<ISingleSetRaw>) => workoutSets.map(toSingleSet))));
     } catch (e) {
         // TODO retries/ error state
         console.error(e);
@@ -67,4 +66,5 @@ function* loadWorkouts(action: { userId: number }): IterableIterator<any> {
 
 export function* rootSaga(): IterableIterator<any> {
     yield takeEvery(INITIALIZE_APP, initialize);
+    yield takeEvery(CLEAR_CACHED_USER_DATA, clearCachedUserData);
 }

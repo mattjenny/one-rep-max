@@ -1,5 +1,6 @@
 import { 
     INITIALIZE_APP,
+    CLEAR_CACHED_USER_DATA,
     SET_USER,
     SET_EXERCISES,
     SET_WORKOUTS,
@@ -12,13 +13,25 @@ import {
     ISingleSet,
 } from './types';
 
-export function initializeApp() {
+export type InitializeAppAction = {
+    type: 'fitbod/INITIALIZE_APP',
+    userId: number,
+}
+
+export function initializeApp(userId: number): InitializeAppAction {
     return {
         type: INITIALIZE_APP,
+        userId,
     };
 }
 
-export function setUser(user: IUser) {
+export function clearCachedUserData() {
+    return {
+        type: CLEAR_CACHED_USER_DATA,
+    };
+}
+
+export function setUser(user: IUser | void) {
     return {
         type: SET_USER,
         payload: { user },
