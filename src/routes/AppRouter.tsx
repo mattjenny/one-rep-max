@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import {
+    BrowserRouter as Router,
+    Route,
+    Link,
+    Redirect,
+} from 'react-router-dom';
 
 import { ExercisesRoute } from './ExercisesRoute';
 import { Exercises } from '../components/Exercises';
@@ -22,6 +27,17 @@ export const AppRouter: React.SFC<{}> = () => {
 
                 <ExercisesRoute path="/exercises" component={Exercises} />
                 <Route path="/login" component={Login} />
+                <Route
+                    path="/"
+                    render={() => (
+                        <Redirect
+                            to={{
+                                pathname: "/exercises",
+                                state: { from: "/" }
+                            }}
+                        />
+                    )
+                } />
             </div>
         </Router>
     );

@@ -10,7 +10,7 @@ class AuthManagerSingleton {
     
     public isAuthenticated(): boolean {
         const cookie = this.getAuthCookie();
-        return cookie != null && cookie.username != '';
+        return !!cookie && !!cookie.username;
     }
     
     public getAuthDetails(): IAuthInfo | void {
@@ -27,6 +27,10 @@ class AuthManagerSingleton {
         const expires = new Date();
         expires.setTime(expires.getTime() + ONE_DAY_MS);
         document.cookie = `${COOKIE_NAME}=${JSON.stringify(authInfo)}; expires=${expires}; path=/`;
+    }
+
+    public logout() {
+        document.cookie = `${COOKIE_NAME}={}`;
     }
     
     private getAuthCookie(): IAuthInfo | void {

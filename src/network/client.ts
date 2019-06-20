@@ -1,12 +1,13 @@
 import { devBaseUrl, prodBaseUrl } from './constants';
 import { fetchJson, fetchJsonWithAuthInfo } from './fetch';
 import { IAuthInfo } from '../auth/types';
+import { IUser } from '../store/types';
 
 export function loadUsersWithAuthInfo(authInfo: IAuthInfo) {
     return fetchJsonWithAuthInfo(`${getBaseUrl()}/api/v1/users`, 'GET', {}, authInfo);
 }
 
-export function loadUsers() {
+export function loadUsers(): Promise<Array<IUser>> {
     return fetchJson(`${getBaseUrl()}/api/v1/users`, 'GET');
 }
 
