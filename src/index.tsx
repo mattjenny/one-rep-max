@@ -5,10 +5,22 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { initializeStore } from './store/store';
 import { Provider } from 'react-redux';
-import { initializeApp } from './store/actions';
+import { setUser } from './store/actions';
+import { AuthManager } from './auth/AuthManager';
 
 const store = initializeStore();
-store.dispatch(initializeApp());
+
+if (AuthManager.isAuthenticated()) {
+    const authInfo = AuthManager.getAuthDetails();
+    const userId = AuthManager.getLoggedInUserId();
+    const email = authInfo && authInfo.email;
+    if (userId && email) {
+        store.dispatch(setUser({
+            id: userId,
+            email,
+        }))
+    }
+}
 
 ReactDOM.render(
     <Provider store={store}>

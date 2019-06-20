@@ -3,13 +3,22 @@ import { IAuthInfo } from '../auth/types';
 
 type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-export function fetchJson(url: string, method: HTTPMethod, data: Object = {}): Promise<any> {
+const MAX_RETRIES = 3;
+
+export function fetchJson(url: string, method: HTTPMethod, data: Object = {}, tries = 1): Promise<any> {
     const authInfo = AuthManager.getAuthDetails();
     if (!authInfo) {
         return Promise.reject(new Error('Auth details not found!'));
     }
 
-    return fetchJsonWithAuthInfo(url, method, data, authInfo);
+    return fetchJsonWithAuthInfo(url, method, data, authInfo)
+        .catch((e) => {
+            if (tries < MAX_RETRIES) {
+                console.warn(`Error; retrying. Attempt number: ${tries + 1}`, e);
+                return fetchJson(url, method, data, tries + 1);
+            }
+            throw e;
+        });
 }
 
 export function fetchJsonWithAuthInfo(url: string, method: HTTPMethod, data: Object = {}, authInfo: IAuthInfo): Promise<any> {

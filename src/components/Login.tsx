@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { loadUsersWithAuthInfo } from '../network/client';
+import { NetworkClient } from '../network/client';
 import { AuthManager } from '../auth/AuthManager';
 import { setUser as setUserAction } from '../store/actions';
 import { IUser } from '../store/types';
@@ -147,13 +147,14 @@ class UnconnectedLogin extends React.PureComponent<Props, State> {
 
     private handleSubmission = (event: any) => {
         event.preventDefault();
-        const { email: username, password } = this.state;
+        const { email: email, password } = this.state;
 
-        loadUsersWithAuthInfo({ username, password })
+        NetworkClient.getUsersWithAuthInfo({ email, password })
             .then((response) => {
-                const currentUser = response.find((user: IUser) => user.email === username);
+                const currentUser = response.find((user: IUser) => user.email === email);
                 this.props.setUser(currentUser);
-                AuthManager.setAuthDetails({ username, password })
+                const userId = currentUser && currentUser.id;
+                AuthManager.setSessionCookie({ email, password, userId })
                 this.setState({ redirect: true });
             })
             .catch((e) => {

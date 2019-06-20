@@ -1,4 +1,8 @@
 export interface IAuthInfo {
-    username: string;
+    email: string;
     password: string;
+}
+
+export interface ISessionCookie extends IAuthInfo {
+    userId: number;
 }
