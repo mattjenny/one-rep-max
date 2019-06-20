@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { loadUsersWithAuthInfo } from '../network/client';
-import { setAuthDetails } from '../network/auth';
+import { AuthManager } from '../auth/AuthManager';
 
 const LoginWrapper = styled.div`
 `;

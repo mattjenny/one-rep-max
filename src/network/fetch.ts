@@ -1,10 +1,10 @@
-import { getAuthDetails, getBasicAuthString } from './auth';
-import { IAuthInfo } from './types';
+import { AuthManager } from '../auth/AuthManager';
+import { IAuthInfo } from '../auth/types';
 
 type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 export function fetchJson(url: string, method: HTTPMethod, data: Object = {}): Promise<any> {
-    const authInfo = getAuthDetails();
+    const authInfo = AuthManager.getAuthDetails();
     if (!authInfo) {
         return Promise.reject(new Error('Auth details not found!'));
     }
@@ -19,7 +19,7 @@ export function fetchJsonWithAuthInfo(url: string, method: HTTPMethod, data: Obj
         cache: 'no-cache',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Basic ${getBasicAuthString(authInfo)}`,
+            'Authorization': `Basic ${AuthManager.getBasicAuthString(authInfo)}`,
             'Accept': 'application/json',
         },
         body: method === 'GET' ? undefined : JSON.stringify(data),
