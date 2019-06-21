@@ -38,6 +38,6 @@ export function toSingleSet(singleSet: ISingleSetRaw): ISingleSet {
 }
 
 // Using Brzycki formula
-function getOneRepMax(weight: number, reps: number) {
+export function getOneRepMax(weight: number, reps: number) {
     return weight * (36.0 / (37 - reps));
 }

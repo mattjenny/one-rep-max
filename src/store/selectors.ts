@@ -11,28 +11,28 @@ const selectSingleSets = (state: IState) => state.singleSets;
 
 const selectExercises = (state: IState) => state.exercises;
 
-const selectExerciseMap = createSelector<IState, Array<IExercise>, { [id: number]: IExercise }>(
+export const selectExerciseMap = createSelector<IState, Array<IExercise>, { [id: number]: IExercise }>(
     selectExercises,
     (exercises) => keyBy(exercises, (exercise: IExercise) => exercise.id),
 );
 
-export const dateSortedSets = createSelector(
+export const selectDateSortedSets = createSelector(
     selectSingleSets,
     (singleSets: Array<ISingleSet>) => {
         const setsCloned = singleSets.slice();
-        setsCloned.sort((a: ISingleSet, b: ISingleSet) => a.performedAt.getTime() - b.performedAt.getTime());
+        setsCloned.sort((a: ISingleSet, b: ISingleSet) => b.performedAt.getTime() - a.performedAt.getTime());
         return setsCloned;
     },
 )
 
-export const selectExerciseList = createSelector(
+export const selectExerciseSidebar = createSelector(
     selectExerciseMap,
-    dateSortedSets,
+    selectDateSortedSets,
     (exerciseMap: { [id: number]: IExercise }, sets: Array<ISingleSet>) => {
         const seenExercises = new Set();
         const exercises: Array<IDisplayExercise> = [];
         sets.forEach((set: ISingleSet) => {
-            if (!seenExercises.has(set.id)) {
+            if (!seenExercises.has(set.exerciseId)) {
                 seenExercises.add(set.exerciseId);
                 const exercise = exerciseMap[set.exerciseId];
                 exercises.push({
