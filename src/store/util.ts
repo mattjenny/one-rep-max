@@ -20,7 +20,7 @@ export function toWorkout(workout: IWorkoutRaw): IWorkout {
     return {
         id: workout.id,
         userId: workout.user_id,
-        workoutDate: workout.workout_date,
+        workoutDate: new Date(workout.workout_date),
         workoutDuration: workout.workout_duration,
     };
 }
@@ -29,7 +29,7 @@ export function toSingleSet(singleSet: ISingleSetRaw): ISingleSet {
     return {
         exerciseId: singleSet.exercise_id,
         id: singleSet.id,
-        performedAt: singleSet.performed_at,
+        performedAt: new Date(singleSet.performed_at),
         reps: singleSet.reps,
         weight: singleSet.weight,
         workoutId: singleSet.workout_id,

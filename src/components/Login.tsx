@@ -152,7 +152,10 @@ class UnconnectedLogin extends React.PureComponent<Props, State> {
         NetworkClient.getUsersWithAuthInfo({ email, password })
             .then((response) => {
                 const currentUser = response.find((user: IUser) => user.email === email);
-                this.props.setUser(currentUser);
+                this.props.setUser({
+                    id: currentUser.id,
+                    email: currentUser.email,
+                });
                 const userId = currentUser && currentUser.id;
                 AuthManager.setSessionCookie({ email, password, userId })
                 this.setState({ redirect: true });
