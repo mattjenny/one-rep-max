@@ -32,14 +32,14 @@ function* initialize(action: InitializeAppAction): IterableIterator<any> {
     }
 }
 
-function* clearCachedUserData(): IterableIterator<any> {
+export function* clearCachedUserData(): IterableIterator<any> {
     yield put(setWorkouts([]));
     yield put(setExercises([]));
     yield put(setSingleSets([]));
     yield put(setUser(undefined));
 }
 
-function* loadExercises(): IterableIterator<any> {
+export function* loadExercises(): IterableIterator<any> {
     try {
         const exercises = yield call(NetworkClient.getExercises);
         yield put(setExercises(exercises.map(toExercise)));
@@ -49,7 +49,7 @@ function* loadExercises(): IterableIterator<any> {
     }
 }
 
-function* loadWorkouts(action: { userId: number }): IterableIterator<any> {
+export function* loadWorkouts(action: { userId: number }): IterableIterator<any> {
     try {
         const workoutsRaw = yield call(NetworkClient.getUserWorkouts, action.userId);
         const workouts = workoutsRaw.map(toWorkout);
