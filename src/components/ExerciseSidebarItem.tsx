@@ -1,12 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 import { IDisplayExercise } from '../store/types';
-import { TEXT_GRAY } from '../constants/colors';
+import {
+    GRAY,
+    TEXT_GRAY,
+    GRAY_HIGHLIGHTED,
+    GRAY_HOVER,
+} from '../constants/colors';
 
-const ExerciseSidebarItemComponent = styled.li`
+interface StyledWrapperProps {
+    isSelected: boolean;
+}
+
+const ExerciseSidebarItemComponent = styled.li<StyledWrapperProps>`
     height: 100px;
     padding: 0 10px;
     width: 100%;
+    background: ${(props: StyledWrapperProps) => props.isSelected ? GRAY_HIGHLIGHTED : GRAY};
+    cursor: pointer;
+
+    &:hover {
+        background: ${(props: StyledWrapperProps) => props.isSelected ? GRAY_HIGHLIGHTED : GRAY_HOVER};
+    }
 `;
 
 const ExerciseSidebarItemInner = styled.div`
@@ -37,15 +52,21 @@ const SecondaryText = styled.div`
 
 export interface IExerciseSidebarItemProps {
     exercise: IDisplayExercise;
+    selectedExerciseId: number | void;
+    setSelectedExerciseId(exerciseId: number): void;
 }
 
 function toDisplayNumber(value: number) {
     return Math.round(value*1e2) / 1e2;
 }
 
-export function ExerciseSidebarItem({ exercise }: IExerciseSidebarItemProps) {
+export function ExerciseSidebarItem({ exercise, selectedExerciseId, setSelectedExerciseId }: IExerciseSidebarItemProps) {
+    function handleClick() {
+        setSelectedExerciseId(exercise.id);
+    }
+
     return (
-        <ExerciseSidebarItemComponent>
+        <ExerciseSidebarItemComponent onClick={handleClick} isSelected={selectedExerciseId === exercise.id}>
             <ExerciseSidebarItemInner>
                 <PrimaryText>
                     <span>{exercise.name}</span>

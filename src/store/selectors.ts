@@ -54,6 +54,19 @@ export const selectExerciseSidebar = createSelector(
     },
 )
 
+export const selectSelectedExerciseId = createSelector(
+    selectExerciseSidebar,
+    (state: IState) => state.selectedExerciseId,
+    (exercises, selectedExerciseId) => {
+        if (selectedExerciseId != null) {
+            return selectedExerciseId;
+        } else if (exercises.length > 0) {
+            return exercises[0].id;
+        }
+        return undefined;
+    },
+)
+
 export const selectSingleSetsByExercise = createSelector(
     selectSingleSets,
     (singleSets: Array<ISingleSet>) => keyBy(singleSets, (set: ISingleSet) => set.exerciseId),

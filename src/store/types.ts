@@ -3,6 +3,7 @@ export interface IState {
     user?: IUser;
     workouts: Array<IWorkout>;
     singleSets: Array<ISingleSet>;
+    selectedExerciseId?: number;
 }
 
 export interface IUser {

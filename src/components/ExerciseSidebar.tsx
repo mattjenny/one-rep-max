@@ -43,6 +43,8 @@ const FitbodLogo = styled.img`
 
 export interface IExerciseSidebarProps {
     exercises: IDisplayExercise[];
+    selectedExerciseId: number | void;
+    setSelectedExerciseId(exerciseId: number): void;
 }
 
 export function ExerciseSidebar(props: IExerciseSidebarProps) {
@@ -53,7 +55,12 @@ export function ExerciseSidebar(props: IExerciseSidebarProps) {
             </SidebarHeaderWrapper>
             <ExerciseListComponent>
                 {props.exercises.map((exercise) => (
-                    <ExerciseSidebarItem exercise={exercise} key={exercise.id} />
+                    <ExerciseSidebarItem
+                        key={exercise.id}
+                        exercise={exercise}
+                        selectedExerciseId={props.selectedExerciseId}
+                        setSelectedExerciseId={props.setSelectedExerciseId}
+                    />
                 ))}
             </ExerciseListComponent>
             <FitbodLogo src={fitbodLogo} alt="logo" width={150} />

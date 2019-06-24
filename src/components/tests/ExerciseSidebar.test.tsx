@@ -7,7 +7,11 @@ import { exercises } from './testConstants';
 describe('ExerciseSidebar component', () => {
     it('Renders the component', () => {
         const wrapper = shallow(
-            <ExerciseSidebar exercises={exercises}/>
+            <ExerciseSidebar
+                exercises={exercises}
+                selectedExerciseId={1}
+                setSelectedExerciseId={() => {}}
+            />
         );
         expect(wrapper.text().includes('Your exercises')).toBe(true);
         expect(wrapper.find(ExerciseSidebarItem)).toHaveLength(3);

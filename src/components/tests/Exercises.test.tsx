@@ -8,6 +8,8 @@ describe('Login component', () => {
         const wrapper = shallow(
             <UnconnectedExercises
                 userId={1}
+                selectedExerciseId={undefined}
+                setSelectedExerciseId={() => {}}
                 exercises={exercises}
                 initialize={() => {}}
                 clearCachedUser={() => {}}
