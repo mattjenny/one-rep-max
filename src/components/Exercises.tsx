@@ -4,13 +4,18 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { AuthManager } from '../auth/AuthManager';
 import { initializeApp, clearCachedUserData } from '../store/actions';
-import { IState } from '../store/types';
+import { selectExerciseSidebar } from '../store/selectors';
+import { IState, IDisplayExercise } from '../store/types';
+import { ExerciseSidebar } from './ExerciseSidebar';
 
 const ExercisesWrapper = styled.div`
+    display: flex;
+    height: 100%;
 `;
 
 interface IStateProps {
     userId: number | void;
+    exercises: IDisplayExercise[];
 }
 
 interface IDispatchProps {
@@ -34,6 +39,7 @@ export class UnconnectedExercises extends React.PureComponent<Props, {}> {
     public render() {
         return (
             <ExercisesWrapper>
+                <ExerciseSidebar exercises={this.props.exercises} />
                 Exercises go here!
                 <button onClick={this.logout}>Log out</button>
             </ExercisesWrapper>
@@ -49,6 +55,7 @@ export class UnconnectedExercises extends React.PureComponent<Props, {}> {
 function mapStateToProps(state: IState): IStateProps {
     return {
         userId: state.user && state.user.id,
+        exercises: selectExerciseSidebar(state),
     };
 }
 

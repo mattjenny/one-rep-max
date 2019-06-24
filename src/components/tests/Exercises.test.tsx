@@ -1,14 +1,14 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import sinon from 'sinon';
-import { NetworkClient } from '../../network/client';
 import { UnconnectedExercises } from '../Exercises';
+import { exercises } from './testConstants'; 
 
 describe('Login component', () => {
     it('Renders the component', () => {
         const wrapper = shallow(
             <UnconnectedExercises
                 userId={1}
+                exercises={exercises}
                 initialize={() => {}}
                 clearCachedUser={() => {}}
                 history={{} as any}

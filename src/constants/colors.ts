@@ -3,3 +3,4 @@ export const GRAY = '#353533';
 export const RED = '#FF6E60';
 export const GREEN = '#4EC183';
 export const WARN = '#D9822B';
+export const TEXT_GRAY = 'rgba(255, 255, 255, 0.6)';
