@@ -40,4 +40,5 @@ export interface IDisplayExercise {
     id: number,
     name: string,
     theoreticalOneRepMax: number,
+    mostRecentDate: Date,
 }

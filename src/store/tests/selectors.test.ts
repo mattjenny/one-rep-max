@@ -6,7 +6,6 @@ import {
 } from '../actions';
 import {
     selectExerciseMap,
-    selectDateSortedSets,
     selectExerciseSidebar,
 } from '../selectors';
 import { getOneRepMax } from '../util';
@@ -34,24 +33,23 @@ describe('selectors for derived state', () => {
         });
     })
 
-    it('selects reverse date-sorted list of sets', () => {
-        expect(selectDateSortedSets(store.getState())).toMatchObject(setsReverseOrdered);
-    })
-
     it('selects data for rendering exercise sidebar', () => {
         expect(selectExerciseSidebar(store.getState())).toMatchObject([
             {
                 id: 1,
                 name: 'Back Squat',
                 theoreticalOneRepMax: getOneRepMax(125, 8),
+                mostRecentDate: new Date('2019-06-14 4:00'),
             }, {
                 id: 3,
                 name: 'Deadlift',
-                theoreticalOneRepMax: getOneRepMax(170, 3),
+                theoreticalOneRepMax: getOneRepMax(180, 3),
+                mostRecentDate: new Date('2019-06-14 3:00'),
             }, {
                 id: 2,
                 name: 'Barbell Bench Press',
                 theoreticalOneRepMax: getOneRepMax(160, 6),
+                mostRecentDate: new Date('2019-06-07 1:00'),
             },
         ]);
     })

@@ -16,33 +16,40 @@ export const selectExerciseMap = createSelector<IState, Array<IExercise>, { [id:
     (exercises) => keyBy(exercises, (exercise: IExercise) => exercise.id),
 );
 
-export const selectDateSortedSets = createSelector(
-    selectSingleSets,
-    (singleSets: Array<ISingleSet>) => {
-        const setsCloned = singleSets.slice();
-        setsCloned.sort((a: ISingleSet, b: ISingleSet) => b.performedAt.getTime() - a.performedAt.getTime());
-        return setsCloned;
-    },
-)
-
 export const selectExerciseSidebar = createSelector(
     selectExerciseMap,
-    selectDateSortedSets,
+    selectSingleSets,
     (exerciseMap: { [id: number]: IExercise }, sets: Array<ISingleSet>) => {
-        const seenExercises = new Set();
-        const exercises: Array<IDisplayExercise> = [];
+        const exerciseMaxes: { [id: number]: { max: number, mostRecentDate: Date } } = {};
         sets.forEach((set: ISingleSet) => {
-            if (!seenExercises.has(set.exerciseId)) {
-                seenExercises.add(set.exerciseId);
-                const exercise = exerciseMap[set.exerciseId];
-                exercises.push({
-                    id: set.exerciseId,
-                    name: exercise ? exercise.name : '',
-                    theoreticalOneRepMax: set.theoreticalOneRepMax,
-                });
+            if (!exerciseMaxes[set.exerciseId]) {
+                exerciseMaxes[set.exerciseId] = {
+                    max: set.theoreticalOneRepMax,
+                    mostRecentDate: set.performedAt,
+                };
+            } else {
+                if (set.theoreticalOneRepMax > exerciseMaxes[set.exerciseId].max) {
+                    exerciseMaxes[set.exerciseId].max = set.theoreticalOneRepMax;
+                }
+                if (set.performedAt.getTime() > exerciseMaxes[set.exerciseId].mostRecentDate.getTime()) {
+                    exerciseMaxes[set.exerciseId].mostRecentDate = set.performedAt;
+                }
             }
         });
 
+        const exercises: Array<IDisplayExercise> = [];
+        Object.keys(exerciseMaxes).forEach((exerciseIdStr: string) => {
+            const exerciseId: number = Number.parseInt(exerciseIdStr, 10);
+            const exercise = exerciseMap[exerciseId];
+                exercises.push({
+                    id: exerciseId,
+                    name: exercise ? exercise.name : '',
+                    theoreticalOneRepMax: exerciseMaxes[exerciseId].max,
+                    mostRecentDate: exerciseMaxes[exerciseId].mostRecentDate,
+                });
+        })
+
+        exercises.sort((a: IDisplayExercise, b: IDisplayExercise) => b.mostRecentDate.getTime() - a.mostRecentDate.getTime());
         return exercises;
     },
 )

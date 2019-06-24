@@ -20,7 +20,7 @@ interface IDispatchProps {
 
 type Props = IStateProps & IDispatchProps & RouteChildrenProps;
 
-class UnconnectedExercises extends React.PureComponent<Props, {}> {
+export class UnconnectedExercises extends React.PureComponent<Props, {}> {
     public componentWillMount() {
         if (this.props.userId != null) {
             this.props.initialize(this.props.userId);
