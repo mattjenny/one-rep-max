@@ -98,7 +98,7 @@ interface IDispatchProps {
 
 type Props = IDispatchProps;
 
-class UnconnectedLogin extends React.PureComponent<Props, State> {
+export class UnconnectedLogin extends React.PureComponent<Props, State> {
     public constructor(props: any) {
         super(props);
         this.state = {
@@ -115,20 +115,30 @@ class UnconnectedLogin extends React.PureComponent<Props, State> {
         }
 
         return (
-            <LoginWrapper>
+            <LoginWrapper className="onerep-login-wrapper">
                 <LoginPanel>
                     <h2>Welcome to Matt's one rep max app!</h2>
                     <Divider />
-                    <form onSubmit={this.handleSubmission}>
+                    <form className="onerep-login-form" onSubmit={this.handleSubmission}>
                         {this.renderSubtitleText()}
                         <FormItems>
                             <FormItem>
                                 <FormLabel>Email<RequiredText>*</RequiredText></FormLabel>
-                                <FormInput type="email" value={this.state.email} onChange={this.handleEmailChange} />
+                                <FormInput
+                                    className='onerep-email-input'
+                                    type="email"
+                                    value={this.state.email}
+                                    onChange={this.handleEmailChange}
+                                />
                             </FormItem>
                             <FormItem>
                                 <FormLabel>Password<RequiredText>*</RequiredText></FormLabel>
-                                <FormInput type="password" value={this.state.password} onChange={this.handlePasswordChange} />
+                                <FormInput
+                                    className='onerep-password-input'
+                                    type="password"
+                                    value={this.state.password}
+                                    onChange={this.handlePasswordChange}
+                                />
                             </FormItem>
                         </FormItems>
                         <SubmitButton type="submit">Login</SubmitButton>
@@ -140,14 +150,14 @@ class UnconnectedLogin extends React.PureComponent<Props, State> {
 
     private renderSubtitleText = () => {
         if (this.state.invalid) {
-            return <InvalidText>Invalid username or password.</InvalidText>
+            return <InvalidText className="onerep-invalid-text">Invalid username or password.</InvalidText>
         }
         return <p>Please log in to continue.</p>;
     }
 
-    private handleSubmission = (event: any) => {
+    public handleSubmission = (event: any) => {
         event.preventDefault();
-        const { email: email, password } = this.state;
+        const { email, password } = this.state;
 
         NetworkClient.getUsersWithAuthInfo({ email, password })
             .then((response) => {
@@ -160,7 +170,7 @@ class UnconnectedLogin extends React.PureComponent<Props, State> {
                 AuthManager.setSessionCookie({ email, password, userId })
                 this.setState({ redirect: true });
             })
-            .catch((e) => {
+            .catch(() => {
                 this.setState({ invalid: true });
             });
     }

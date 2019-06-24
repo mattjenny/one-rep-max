@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "enzyme": "^3.10.0",
     "history": "^4.9.0",
     "lodash.keyby": "^4.6.0",
     "react": "^16.8.6",
@@ -51,7 +50,11 @@
     "@types/react-router-dom": "^4.3.4",
     "@types/redux-logger": "^3.0.7",
     "@types/reselect": "^2.2.0",
+    "@types/sinon": "^7.0.13",
     "@types/styled-components": "^4.1.16",
-    "@types/whatwg-fetch": "0.0.33"
+    "@types/whatwg-fetch": "0.0.33",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "sinon": "^7.3.2"
   }
 }
