@@ -9,17 +9,17 @@ export const workouts = [
     {
         id: 13,
         userId: 42,
-        workoutDate: new Date('2019-06-01 1:00'),
+        workoutDate: new Date('2019-06-07 1:00'),
         workoutDuration: 3600,
     }, {
         id: 14,
         userId: 42,
-        workoutDate: new Date('2019-06-03 1:00'),
+        workoutDate: new Date('2019-06-10 1:00'),
         workoutDuration: 2700,
     }, {
         id: 15,
         userId: 42,
-        workoutDate: new Date('2019-06-05 1:00'),
+        workoutDate: new Date('2019-06-14 3:00'),
         workoutDuration: 4500,
     }
 ]
@@ -30,21 +30,21 @@ export const workoutsRaw = [
         id: 13,
         updated_at: 'should be removed',
         user_id: 42,
-        workout_date: '2019-06-01 1:00',
+        workout_date: '2019-06-07 1:00',
         workout_duration: 3600,
     }, {
         created_at: 'should be removed',
         id: 14,
         updated_at: 'should be removed',
         user_id: 42,
-        workout_date: '2019-06-03 1:00',
+        workout_date: '2019-06-10 1:00',
         workout_duration: 2700,
     }, {
         created_at: 'should be removed',
         id: 15,
         updated_at: 'should be removed',
         user_id: 42,
-        workout_date: '2019-06-05 1:00',
+        workout_date: '2019-06-14 3:00',
         workout_duration: 4500,
     },
 ];

@@ -43,3 +43,15 @@ export interface IDisplayExercise {
     theoreticalOneRepMax: number,
     mostRecentDate: Date,
 }
+
+export interface IWorkoutExercise {
+    workoutId: number;
+    date: Date;
+    theoreticalOneRepMax: number;
+    setCount: number;
+    reps: number;
+    weight: number;
+
+    /* Count of sets with different weight/ reps to give more accurate summary */
+    setsWithDifferentMax: number;
+}

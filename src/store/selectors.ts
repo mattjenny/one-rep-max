@@ -5,15 +5,25 @@ import {
     ISingleSet,
     IExercise,
     IDisplayExercise,
+    IWorkoutExercise,
+    IWorkout,
 } from './types';
+import { sets } from './tests/testConstants';
 
 const selectSingleSets = (state: IState) => state.singleSets;
 
 const selectExercises = (state: IState) => state.exercises;
 
+const selectWorkouts = (state: IState) => state.workouts;
+
 export const selectExerciseMap = createSelector<IState, Array<IExercise>, { [id: number]: IExercise }>(
     selectExercises,
     (exercises) => keyBy(exercises, (exercise: IExercise) => exercise.id),
+);
+
+export const selectWorkoutMap = createSelector<IState, Array<IWorkout>, { [id: number]: IWorkout }>(
+    selectWorkouts,
+    (workouts) => keyBy(workouts, (workout: IWorkout) => workout.id),
 );
 
 export const selectExerciseSidebar = createSelector(
@@ -54,6 +64,11 @@ export const selectExerciseSidebar = createSelector(
     },
 )
 
+export const selectDisplayExercisesById = createSelector(
+    selectExerciseSidebar,
+    (exercises: Array<IDisplayExercise>) => keyBy(exercises, (exercise: IDisplayExercise) => exercise.id),
+)
+
 export const selectSelectedExerciseId = createSelector(
     selectExerciseSidebar,
     (state: IState) => state.selectedExerciseId,
@@ -65,6 +80,74 @@ export const selectSelectedExerciseId = createSelector(
         }
         return undefined;
     },
+)
+
+export const selectExerciseInfo = createSelector(
+    selectSelectedExerciseId,
+    selectDisplayExercisesById,
+    (exerciseId, displayExerciseMap) => {
+        return exerciseId && displayExerciseMap[exerciseId]
+            ? displayExerciseMap[exerciseId]
+            : {
+                id: 0,
+                name: 'Select an exercise to view details.',
+                theoreticalOneRepMax: 0,
+                mostRecentDate: new Date(0),
+            };
+    }
+)
+
+function setsToDataPoint(workoutId: number, date: Date, sets: Array<ISingleSet>): IWorkoutExercise {
+    const data: IWorkoutExercise = {
+        workoutId,
+        date,
+        theoreticalOneRepMax: 0,
+        setCount: 0,
+        reps: 0,
+        weight: 0,
+        setsWithDifferentMax: 0,
+    }
+    sets.forEach((set: ISingleSet) => {
+        if (set.theoreticalOneRepMax > data.theoreticalOneRepMax) {
+            data.theoreticalOneRepMax = set.theoreticalOneRepMax;
+            data.weight = set.weight;
+            data.reps = set.reps;
+            data.setsWithDifferentMax = data.setsWithDifferentMax + data.setCount;
+            data.setCount = 1;
+        } else if (set.theoreticalOneRepMax === data.theoreticalOneRepMax) {
+            data.setCount = data.setCount + 1;
+        } else {
+            data.setsWithDifferentMax = data.setsWithDifferentMax + 1;
+        }
+    });
+
+    return data;
+}
+
+export const selectExerciseData = createSelector(
+    selectSelectedExerciseId,
+    selectSingleSets,
+    selectWorkoutMap,
+    (exerciseId, singleSets, workoutMap) => {
+        const setsByWorkout: { [workoutId: number]: Array<ISingleSet> } = {};
+        singleSets.filter((set: ISingleSet) => set.exerciseId === exerciseId && workoutMap[set.workoutId])
+            .forEach((set: ISingleSet) => {
+                if (!setsByWorkout[set.workoutId]) {
+                    setsByWorkout[set.workoutId] = [];
+                }
+                setsByWorkout[set.workoutId].push(set);
+            });
+        const data: Array<IWorkoutExercise> = [];
+        Object.keys(setsByWorkout).forEach((workoutIdStr: string) => {
+            const workoutId = parseInt(workoutIdStr, 10);
+            const workout = workoutMap[workoutId] || { workoutDate: new Date(0) };
+            const sets: Array<ISingleSet> = setsByWorkout[workoutId] || [];
+            data.push(setsToDataPoint(workoutId, workout.workoutDate, sets));
+        });
+
+        data.sort((a: IWorkoutExercise, b: IWorkoutExercise) => a.date.getTime() - b.date.getTime())
+        return data;
+    }
 )
 
 export const selectSingleSetsByExercise = createSelector(

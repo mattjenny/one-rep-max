@@ -9,6 +9,13 @@ describe('Login component', () => {
             <UnconnectedExercises
                 userId={1}
                 selectedExerciseId={undefined}
+                exerciseInfo={{
+                    id: 0,
+                    name: 'Select an exercise to view details.',
+                    theoreticalOneRepMax: 0,
+                    mostRecentDate: new Date(0),
+                }}
+                exerciseData={[]}
                 setSelectedExerciseId={() => {}}
                 exercises={exercises}
                 initialize={() => {}}

@@ -8,8 +8,17 @@ import {
     clearCachedUserData,
     setSelectedExerciseId as setSelectedExerciseIdAction,
 } from '../store/actions';
-import { selectExerciseSidebar, selectSelectedExerciseId } from '../store/selectors';
-import { IState, IDisplayExercise } from '../store/types';
+import {
+    selectExerciseSidebar,
+    selectSelectedExerciseId,
+    selectExerciseInfo,
+    selectExerciseData,
+} from '../store/selectors';
+import {
+    IState,
+    IDisplayExercise,
+    IWorkoutExercise,
+} from '../store/types';
 import { ExerciseSidebar } from './ExerciseSidebar';
 
 const ExercisesWrapper = styled.div`
@@ -21,6 +30,8 @@ interface IStateProps {
     userId: number | void;
     exercises: IDisplayExercise[];
     selectedExerciseId: number | void;
+    exerciseInfo: IDisplayExercise;
+    exerciseData: IWorkoutExercise[];
 }
 
 interface IDispatchProps {
@@ -67,6 +78,8 @@ function mapStateToProps(state: IState): IStateProps {
         userId: state.user && state.user.id,
         exercises: selectExerciseSidebar(state),
         selectedExerciseId: selectSelectedExerciseId(state),
+        exerciseInfo: selectExerciseInfo(state),
+        exerciseData: selectExerciseData(state),
     };
 }
 
