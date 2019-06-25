@@ -4,9 +4,11 @@ import {
     VictoryChart,
     VictoryArea,
     VictoryLine,
+    VictoryAxis,
+    VictoryTheme,
     DomainPropType,
 } from 'victory';
-import { DARK_GRAY, GREEN } from '../constants/colors';
+import { GRAY, DARK_GRAY, GREEN } from '../constants/colors';
 import { IWorkoutExercise } from '../store/types';
 import { toDisplayNumber } from '../store/util';
 
@@ -53,6 +55,30 @@ function getDomain(data: IWorkoutExercise[]): DomainPropType {
     };
 }
 
+const tickStyles: {
+[K in keyof React.CSSProperties]:
+| string
+| number
+| ((tick?: any) => string | number)
+} = {
+    fill: "transparent",
+    size: 5,
+    stroke: '#FFFFFF',
+    strokeWidth: 1,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+} as any; // HACKHACK: "size" not recognized
+
+const baseLabelStyles = {
+    fontFamily: "'Roboto', 'Helvetica Neue', Helvetica, sans-serif",
+    fontSize: 12,
+    letterSpacing: "normal",
+    padding: 8,
+    fill: "#FFFFFF",
+    stroke: "transparent",
+    strokeWidth: 0
+  };
+
 export function WorkoutChart({ data }: IWorkoutChartProps) {
     return (
         <WorkoutChartWrapper>
@@ -71,13 +97,32 @@ export function WorkoutChart({ data }: IWorkoutChartProps) {
                 </defs>
             </svg>
             <VictoryChart>
+                <VictoryAxis
+                    scale="time"
+                    style={{
+                        axis: {stroke: "#ffffff"},
+                        axisLabel: {fontSize: 20, padding: 30, color: 'white' },
+                        grid: {
+                            fill: "none",
+                            stroke: "#FFFFFF",
+                            strokeWidth: 2,
+                            strokeLinecap: "round",
+                            strokeLinejoin: "round",
+                            pointerEvents: "painted"
+                          },
+                          ticks: tickStyles,
+                          tickLabels: baseLabelStyles,
+                    }}
+                />
                 <VictoryArea
+                    interpolation="linear"
                     style={{ data: { fill: 'url(#chartGradient)' } }}
                     data={data}
                     scale={{ x: 'time', y: 'linear' }}
                     domain={getDomain(data)}
                 />
                 <VictoryLine
+                    interpolation="linear"
                     style={{ data: { stroke: GREEN } }}
                     data={data}
                     scale={{ x: 'time', y: 'linear' }}
