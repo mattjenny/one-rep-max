@@ -48,3 +48,9 @@ export function toDisplayNumber(value: number) {
     }
     return Math.round(value*1e2) / 1e2;
 }
+
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+export function getDateStr(d: number, includeYear = false): string {
+    const date = new Date(d);
+    return `${months[date.getMonth()]} ${date.getDate()}${includeYear ? ` ${date.getFullYear()}` : ''}`
+}

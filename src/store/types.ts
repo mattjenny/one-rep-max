@@ -48,6 +48,7 @@ export interface IWorkoutExercise {
     workoutId: number;
     x: Date;
     y: number;
+    label: string;
     setCount: number;
     reps: number;
     weight: number;

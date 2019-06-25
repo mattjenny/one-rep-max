@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import '../node_modules/react-vis/dist/style.css';
 
 import { AppRouter } from './routes/AppRouter';
 
