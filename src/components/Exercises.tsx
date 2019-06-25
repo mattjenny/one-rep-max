@@ -146,6 +146,12 @@ export class UnconnectedExercises extends React.PureComponent<Props, State> {
     }
 
     public componentDidMount() {
+        window.onresize = () => {
+            if (isMobile() !== this.state.isMobile) {
+                this.setState({ isMobile: isMobile() });
+            }
+        }
+            
         if (this.props.isLoading) {
             this.loadingTextTimeout = setTimeout(this.updateText, 500);
         }
