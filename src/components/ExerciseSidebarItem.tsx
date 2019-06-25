@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { IDisplayExercise } from '../store/types';
 import {
-    GRAY,
     TEXT_GRAY,
     GRAY_HIGHLIGHTED,
     GRAY_HOVER,

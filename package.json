@@ -16,6 +16,7 @@
     "reselect": "^4.0.0",
     "styled-components": "^4.3.1",
     "typescript": "3.5.1",
+    "victory": "^32.3.0",
     "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
@@ -52,6 +53,7 @@
     "@types/reselect": "^2.2.0",
     "@types/sinon": "^7.0.13",
     "@types/styled-components": "^4.1.16",
+    "@types/victory": "^31.0.20",
     "@types/whatwg-fetch": "0.0.33",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",

@@ -8,7 +8,6 @@ import {
     IWorkoutExercise,
     IWorkout,
 } from './types';
-import { sets } from './tests/testConstants';
 
 const selectSingleSets = (state: IState) => state.singleSets;
 
@@ -100,21 +99,21 @@ export const selectExerciseInfo = createSelector(
 function setsToDataPoint(workoutId: number, date: Date, sets: Array<ISingleSet>): IWorkoutExercise {
     const data: IWorkoutExercise = {
         workoutId,
-        date,
-        theoreticalOneRepMax: 0,
+        x: date,
+        y: 0,
         setCount: 0,
         reps: 0,
         weight: 0,
         setsWithDifferentMax: 0,
     }
     sets.forEach((set: ISingleSet) => {
-        if (set.theoreticalOneRepMax > data.theoreticalOneRepMax) {
-            data.theoreticalOneRepMax = set.theoreticalOneRepMax;
+        if (set.theoreticalOneRepMax > data.y) {
+            data.y = set.theoreticalOneRepMax;
             data.weight = set.weight;
             data.reps = set.reps;
             data.setsWithDifferentMax = data.setsWithDifferentMax + data.setCount;
             data.setCount = 1;
-        } else if (set.theoreticalOneRepMax === data.theoreticalOneRepMax) {
+        } else if (set.theoreticalOneRepMax === data.y) {
             data.setCount = data.setCount + 1;
         } else {
             data.setsWithDifferentMax = data.setsWithDifferentMax + 1;
@@ -145,7 +144,7 @@ export const selectExerciseData = createSelector(
             data.push(setsToDataPoint(workoutId, workout.workoutDate, sets));
         });
 
-        data.sort((a: IWorkoutExercise, b: IWorkoutExercise) => a.date.getTime() - b.date.getTime())
+        data.sort((a: IWorkoutExercise, b: IWorkoutExercise) => a.x.getTime() - b.x.getTime())
         return data;
     }
 )

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { DARK_GRAY, TEXT_GRAY } from '../constants/colors';
 import { IDisplayExercise, IWorkoutExercise } from '../store/types';
 import { toDisplayNumber } from '../store/util';
+import { WorkoutChart } from './WorkoutChart';
 
 const ExerciseDataWrapper = styled.div`
     background: ${DARK_GRAY};
@@ -51,6 +52,7 @@ export function ExerciseData({ exercise, data }: IExerciseDataProps) {
                     <span>lbs</span>
                 </ChartHeaderSecondaryText>
             </ChartHeader>
+            <WorkoutChart data={data} />
         </ExerciseDataWrapper>
     );
 }
