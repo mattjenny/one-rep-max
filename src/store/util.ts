@@ -43,5 +43,8 @@ export function getOneRepMax(weight: number, reps: number) {
 }
 
 export function toDisplayNumber(value: number) {
+    if (value > 1000) {
+        return Math.round(value*10) / 10;
+    }
     return Math.round(value*1e2) / 1e2;
 }

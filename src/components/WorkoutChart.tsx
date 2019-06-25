@@ -11,6 +11,7 @@ import {
 import { GRAY, DARK_GRAY, GREEN } from '../constants/colors';
 import { IWorkoutExercise } from '../store/types';
 import { toDisplayNumber } from '../store/util';
+import { chartTheme } from './chartTheme';
 
 const WorkoutChartWrapper = styled.div`
 
@@ -77,7 +78,13 @@ const baseLabelStyles = {
     fill: "#FFFFFF",
     stroke: "transparent",
     strokeWidth: 0
-  };
+};
+
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function getDateStr(d: number): string {
+    const date = new Date(d);
+    return `${months[date.getMonth()]} ${date.getDate()}`
+}
 
 export function WorkoutChart({ data }: IWorkoutChartProps) {
     return (
@@ -96,36 +103,26 @@ export function WorkoutChart({ data }: IWorkoutChartProps) {
                     </linearGradient>
                 </defs>
             </svg>
-            <VictoryChart>
+            <VictoryChart theme={chartTheme}>
                 <VictoryAxis
-                    scale="time"
-                    style={{
-                        axis: {stroke: "#ffffff"},
-                        axisLabel: {fontSize: 20, padding: 30, color: 'white' },
-                        grid: {
-                            fill: "none",
-                            stroke: "#FFFFFF",
-                            strokeWidth: 2,
-                            strokeLinecap: "round",
-                            strokeLinejoin: "round",
-                            pointerEvents: "painted"
-                          },
-                          ticks: tickStyles,
-                          tickLabels: baseLabelStyles,
-                    }}
+                    dependentAxis={false}
+                    tickFormat={(x) => getDateStr(x)}
+                />
+                <VictoryAxis dependentAxis
+                    tickFormat={(y) => `${Math.round(y)} lbs`}
                 />
                 <VictoryArea
                     interpolation="linear"
                     style={{ data: { fill: 'url(#chartGradient)' } }}
                     data={data}
-                    scale={{ x: 'time', y: 'linear' }}
+                    scale="time"
                     domain={getDomain(data)}
                 />
                 <VictoryLine
                     interpolation="linear"
                     style={{ data: { stroke: GREEN } }}
                     data={data}
-                    scale={{ x: 'time', y: 'linear' }}
+                    scale="time"
                 />
             </VictoryChart>
         </WorkoutChartWrapper>
