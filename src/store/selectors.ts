@@ -124,11 +124,12 @@ function setsToDataPoint(workoutId: number, date: Date, sets: Array<ISingleSet>)
 
     const dateStr = getDateStr(date.getTime(), true);
     const setStr = `${data.setCount} set${data.setCount > 1 ? 's' : ''} / ${data.reps} rep${data.reps > 1 ? 's': ''} / ${data.weight} lbs.`;
-    const otherSetsStr = data.setsWithDifferentMax > 0 ? `\n+${data.setsWithDifferentMax} sets.` : '';
+    const oneRep = `1RM: ${data.y}`
+    const otherSetsStr = data.setsWithDifferentMax > 0 ? `\n+${data.setsWithDifferentMax} other sets.` : '';
 
     return {
         ...data,
-        label: `${dateStr}\n${setStr}${otherSetsStr}`,
+        label: `${dateStr}\n${setStr}\n${oneRep}${otherSetsStr}`,
     }
 }
 

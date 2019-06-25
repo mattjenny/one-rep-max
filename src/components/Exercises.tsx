@@ -3,7 +3,7 @@ import { RouteChildrenProps } from 'react-router';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { AuthManager } from '../auth/AuthManager';
-import { RED } from '../constants/colors';
+import { RED, TEXT_GRAY } from '../constants/colors';
 import { HEADER_HEIGHT } from '../constants/layout';
 import {
     initializeApp,
@@ -46,6 +46,18 @@ const ExerciseBanner = styled.div`
     font-weight: 600;
 `;
 
+const LogoutButton = styled.button`
+    background: rgba(255, 255, 255, 0);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+        color: ${TEXT_GRAY};
+    }
+`;
+
 interface IStateProps {
     userId: number | void;
     exercises: IDisplayExercise[];
@@ -85,7 +97,7 @@ export class UnconnectedExercises extends React.PureComponent<Props, {}> {
                     <ExerciseBanner>
                         <span />
                         <span>{this.props.exerciseInfo && this.props.exerciseInfo.name}</span>
-                        <button onClick={this.logout}>Log out</button>
+                        <LogoutButton onClick={this.logout}>Log out</LogoutButton>
                     </ExerciseBanner>
                     <ExerciseData exercise={this.props.exerciseInfo} data={this.props.exerciseData} />
                 </ExerciseDetailPanel>

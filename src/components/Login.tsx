@@ -29,7 +29,7 @@ const LoginPanel = styled.div`
     padding: 10px 20px;
     width: 450px;
     max-width: 100%;
-    height: 280px;
+    height: 300px;
     max-height: 100%;
     background: ${GRAY};
     color: white;

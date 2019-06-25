@@ -86,7 +86,7 @@ export const chartTheme: VictoryThemeDefinition = {
           stroke: blueGrey300,
           strokeWidth: 1,
           strokeLinecap,
-          strokeLinejoin
+          strokeLinejoin,
         },
         tickLabels: Object.assign({}, baseLabelStyles, {
           fill: white
@@ -101,6 +101,7 @@ export const chartTheme: VictoryThemeDefinition = {
   },
   independentAxis: {
     tickFormat: (x: number) => getDateStr(x),
+    tickCount: 5,
   },
   line: Object.assign(
     {
