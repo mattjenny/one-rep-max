@@ -4,8 +4,6 @@ import {
     VictoryChart,
     VictoryArea,
     VictoryLine,
-    VictoryAxis,
-    VictoryTheme,
     DomainPropType,
 } from 'victory';
 import { GRAY, DARK_GRAY, GREEN } from '../constants/colors';
@@ -48,42 +46,12 @@ function getDomain(data: IWorkoutExercise[]): DomainPropType {
         }
     });
 
-    const yPadding = 0.1 * ( maxY - minY );
+    const yPadding = Math.max(0.1 * ( maxY - minY ), 5);
 
     return {
         x: [ minX, maxX ],
         y: [ minY - yPadding, maxY + yPadding ],
     };
-}
-
-const tickStyles: {
-[K in keyof React.CSSProperties]:
-| string
-| number
-| ((tick?: any) => string | number)
-} = {
-    fill: "transparent",
-    size: 5,
-    stroke: '#FFFFFF',
-    strokeWidth: 1,
-    strokeLinecap: 'round',
-    strokeLinejoin: 'round',
-} as any; // HACKHACK: "size" not recognized
-
-const baseLabelStyles = {
-    fontFamily: "'Roboto', 'Helvetica Neue', Helvetica, sans-serif",
-    fontSize: 12,
-    letterSpacing: "normal",
-    padding: 8,
-    fill: "#FFFFFF",
-    stroke: "transparent",
-    strokeWidth: 0
-};
-
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-function getDateStr(d: number): string {
-    const date = new Date(d);
-    return `${months[date.getMonth()]} ${date.getDate()}`
 }
 
 export function WorkoutChart({ data }: IWorkoutChartProps) {
@@ -103,20 +71,12 @@ export function WorkoutChart({ data }: IWorkoutChartProps) {
                     </linearGradient>
                 </defs>
             </svg>
-            <VictoryChart theme={chartTheme}>
-                <VictoryAxis
-                    dependentAxis={false}
-                    tickFormat={(x) => getDateStr(x)}
-                />
-                <VictoryAxis dependentAxis
-                    tickFormat={(y) => `${Math.round(y)} lbs`}
-                />
+            <VictoryChart theme={chartTheme} domain={getDomain(data)}>
                 <VictoryArea
                     interpolation="linear"
                     style={{ data: { fill: 'url(#chartGradient)' } }}
                     data={data}
                     scale="time"
-                    domain={getDomain(data)}
                 />
                 <VictoryLine
                     interpolation="linear"

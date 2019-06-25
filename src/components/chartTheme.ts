@@ -1,5 +1,8 @@
-import { GRAY, TEXT_GRAY } from '../constants/colors';
-const blueGrey50 = "#ECEFF1";
+import { VictoryThemeDefinition } from 'victory';
+import { TEXT_GRAY } from '../constants/colors';
+
+// Adapted from Victory material theme
+
 const blueGrey300 = "#90A4AE";
 const blueGrey700 = "#455A64";
 const grey900 = "#212121";
@@ -35,11 +38,16 @@ const centeredLabelStyles = Object.assign({ textAnchor: "middle" }, baseLabelSty
 // *
 // * Strokes
 // *
-const strokeDasharray = "10, 5";
 const strokeLinecap = "round";
 const strokeLinejoin = "round";
 
-export const chartTheme = {
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function getDateStr(d: number): string {
+    const date = new Date(d);
+    return `${months[date.getMonth()]} ${date.getDate()}`
+}
+
+export const chartTheme: VictoryThemeDefinition = {
   area: Object.assign(
     {
       style: {
@@ -88,6 +96,12 @@ export const chartTheme = {
     baseProps
   ),
   chart: baseProps,
+  dependentAxis: {
+    tickFormat: (y: number) => `${Math.round(y)} lbs`,
+  },
+  independentAxis: {
+    tickFormat: (x: number) => getDateStr(x),
+  },
   line: Object.assign(
     {
       style: {
