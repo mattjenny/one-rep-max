@@ -7,6 +7,7 @@ describe('Login component', () => {
     it('Renders the component', () => {
         const wrapper = shallow(
             <UnconnectedExercises
+                isLoading={false}
                 userId={1}
                 selectedExerciseId={undefined}
                 exerciseInfo={{

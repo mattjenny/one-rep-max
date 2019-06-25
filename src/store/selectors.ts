@@ -8,7 +8,7 @@ import {
     IWorkoutExercise,
     IWorkout,
 } from './types';
-import { getDateStr } from './util';
+import { getDateStr, toDisplayNumber } from './util';
 
 const selectSingleSets = (state: IState) => state.singleSets;
 
@@ -124,7 +124,7 @@ function setsToDataPoint(workoutId: number, date: Date, sets: Array<ISingleSet>)
 
     const dateStr = getDateStr(date.getTime(), true);
     const setStr = `${data.setCount} set${data.setCount > 1 ? 's' : ''} / ${data.reps} rep${data.reps > 1 ? 's': ''} / ${data.weight} lbs.`;
-    const oneRep = `1RM: ${data.y}`
+    const oneRep = `One-rep max: ${toDisplayNumber(data.y)}`
     const otherSetsStr = data.setsWithDifferentMax > 0 ? `\n+${data.setsWithDifferentMax} other sets.` : '';
 
     return {

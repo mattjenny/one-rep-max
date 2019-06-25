@@ -6,6 +6,7 @@ import {
     SET_WORKOUTS,
     SET_SINGLE_SETS,
     SET_SELECTED_EXERCISE_ID,
+    SET_LOADING,
 } from './constants';
 import {
     IUser,
@@ -65,4 +66,11 @@ export function setSelectedExerciseId(exerciseId: number) {
         type: SET_SELECTED_EXERCISE_ID,
         payload: { exerciseId },
     };
+}
+
+export function setLoading(isLoading: boolean) {
+    return {
+        type: SET_LOADING,
+        payload: { isLoading },
+    }
 }

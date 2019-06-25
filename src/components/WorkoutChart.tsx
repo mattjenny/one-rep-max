@@ -88,7 +88,7 @@ export function WorkoutChart({ data }: IWorkoutChartProps) {
                         style={{ data: { fill: 'url(#chartGradient)' } }}
                     />
                     <VictoryLine
-                        style={{ data: { stroke: GREEN } }}
+                        style={{ data: { stroke: GREEN, strokeWidth: 2 } }}
                     />
                     <VictoryScatter
                         size={1}

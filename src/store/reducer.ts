@@ -4,6 +4,7 @@ import {
     SET_WORKOUTS,
     SET_SINGLE_SETS,
     SET_SELECTED_EXERCISE_ID,
+    SET_LOADING,
 } from './constants';
 import { IState } from './types';
 
@@ -11,6 +12,7 @@ const initialState: IState = {
     exercises: [],
     workouts: [],
     singleSets: [],
+    loading: false,
 };
 
 export const reducer = (prevState: IState = initialState, action: any) => {
@@ -25,6 +27,8 @@ export const reducer = (prevState: IState = initialState, action: any) => {
             return { ...prevState, singleSets: action.payload.singleSets };
         case SET_SELECTED_EXERCISE_ID:
             return { ...prevState, selectedExerciseId: action.payload.exerciseId };
+        case SET_LOADING:
+            return { ...prevState, loading: action.payload.isLoading };
         default:
             return prevState;
     }

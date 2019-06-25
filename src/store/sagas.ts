@@ -13,6 +13,7 @@ import {
     setExercises,
     setWorkouts,
     setSingleSets,
+    setLoading,
 } from './actions';
 import { IWorkout } from './types';
 import {
@@ -51,6 +52,7 @@ export function* loadExercises(): IterableIterator<any> {
 
 export function* loadWorkouts(action: { userId: number }): IterableIterator<any> {
     try {
+        yield put(setLoading(true));
         const workoutsRaw = yield call(NetworkClient.getUserWorkouts, action.userId);
         const workouts = workoutsRaw.map(toWorkout);
         yield put(setWorkouts(workouts));
@@ -58,9 +60,11 @@ export function* loadWorkouts(action: { userId: number }): IterableIterator<any>
         const workoutRequests = workouts.map((workout: IWorkout) => call(NetworkClient.getUserWorkoutSingleSets, action.userId, workout.id));
         const singleSets: Array<Array<ISingleSetRaw>> = yield all(workoutRequests);
         yield put(setSingleSets(singleSets.flatMap((workoutSets: Array<ISingleSetRaw>) => workoutSets.map(toSingleSet))));
+        yield put(setLoading(false));
     } catch (e) {
         // TODO retries/ error state
         console.error(e);
+        yield put(setLoading(false));
     }
 }
 

@@ -4,6 +4,7 @@ export interface IState {
     workouts: Array<IWorkout>;
     singleSets: Array<ISingleSet>;
     selectedExerciseId?: number;
+    loading: boolean;
 }
 
 export interface IUser {
