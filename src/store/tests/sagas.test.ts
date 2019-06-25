@@ -8,6 +8,7 @@ import {
     setExercises,
     setWorkouts,
     setSingleSets,
+    setLoading,
 } from '../actions';
 import {
     clearCachedUserData,
@@ -45,6 +46,7 @@ describe('saga tests', () => {
         const generator = loadWorkouts({ userId: 1 });
 
         // Load workouts
+        expect(generator.next(workoutsRaw).value).toEqual(put(setLoading(true)));
         expect(generator.next().value).toEqual(call(NetworkClient.getUserWorkouts, 1));
         expect(generator.next(workoutsRaw).value).toEqual(put(setWorkouts(workouts)));
 
@@ -55,6 +57,7 @@ describe('saga tests', () => {
             call(NetworkClient.getUserWorkoutSingleSets, 1, 15),
         ]));
         expect(generator.next(setsRaw).value).toEqual(put(setSingleSets(sets)));
+        expect(generator.next(workoutsRaw).value).toEqual(put(setLoading(false)));
 
         expect(generator.next().done).toBe(true);
     })

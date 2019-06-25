@@ -5,11 +5,15 @@ import { IDisplayExercise, IWorkoutExercise } from '../store/types';
 import { toDisplayNumber } from '../store/util';
 import { WorkoutChart } from './WorkoutChart';
 
-const ExerciseDataWrapper = styled.div`
+interface IExerciseDataWrapperProps { 
+    isMobile: boolean;
+}
+
+const ExerciseDataWrapper = styled.div<IExerciseDataWrapperProps>`
     background: ${DARK_GRAY};
     width: 100%;
     flex: 1 1 auto;
-    padding: 80px;
+    padding: ${(props: IExerciseDataWrapperProps) => props.isMobile ? '20px 10px' : '80px'};
 `;
 
 const ChartHeader = styled.div`
@@ -37,11 +41,12 @@ const ChartHeaderSecondaryText = styled.div`
 export interface IExerciseDataProps {
     exercise: IDisplayExercise;
     data: IWorkoutExercise[];
+    isMobile: boolean;
 }
 
-export function ExerciseData({ exercise, data }: IExerciseDataProps) {
+export function ExerciseData({ exercise, data, isMobile }: IExerciseDataProps) {
     return (
-        <ExerciseDataWrapper>
+        <ExerciseDataWrapper isMobile={isMobile}>
             <ChartHeader>
                 <ChartHeaderPrimaryText>
                     <span>One Rep Max</span>

@@ -9,6 +9,7 @@ describe('ExerciseData component', () => {
             <ExerciseData
                 exercise={exercises[0]}
                 data={[]}
+                isMobile={false}
             />
         );
         expect(wrapper.text().includes('One Rep Max')).toBe(true);
