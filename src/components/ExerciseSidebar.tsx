@@ -1,18 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 import fitbodLogo from '../resources/fitbod_logo.png';
-import { GRAY, TEXT_GRAY } from '../constants/colors';
-import { HEADER_HEIGHT } from '../constants/layout';
+import { GRAY, TEXT_GRAY, RED } from '../constants/colors';
+import { HEADER_HEIGHT, SIDEBAR_WIDTH } from '../constants/layout';
 import { ExerciseSidebarItem } from './ExerciseSidebarItem';
 import { IDisplayExercise } from '../store/types';
 
 const ExerciseSidebarWrapper = styled.div`
-    width: 400px;
+    width: ${SIDEBAR_WIDTH}px;
     color: white;
     background: ${GRAY};
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 0 0 auto;
 `;
 
 const SidebarHeaderWrapper = styled.div`
@@ -36,14 +37,33 @@ const ExerciseListComponent = styled.ul`
     margin: 0;
 `;
 
-const FitbodLogo = styled.img`
+const SidebarFooter = styled.div`
+    width: 100%;
     flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+const FitbodLogo = styled.img`
     margin-bottom: 10px;
+`;
+
+const LogoutButton = styled.button`
+    background: ${RED};
+    color: white;
+    text-align: center;
+    border: none;
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
 `;
 
 export interface IExerciseSidebarProps {
     exercises: IDisplayExercise[];
     selectedExerciseId: number | void;
+    isMobile: boolean;
+    logout(): void;
     setSelectedExerciseId(exerciseId: number): void;
 }
 
@@ -63,7 +83,10 @@ export function ExerciseSidebar(props: IExerciseSidebarProps) {
                     />
                 ))}
             </ExerciseListComponent>
-            <FitbodLogo src={fitbodLogo} alt="logo" width={150} />
+            <SidebarFooter>
+                <FitbodLogo src={fitbodLogo} alt="logo" width={150} />
+                {props.isMobile && <LogoutButton onClick={props.logout}>Logout</LogoutButton>}
+            </SidebarFooter>
         </ExerciseSidebarWrapper>
     );
 }

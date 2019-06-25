@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { AuthManager } from '../auth/AuthManager';
 import { RED, GRAY, TEXT_GRAY } from '../constants/colors';
-import { HEADER_HEIGHT } from '../constants/layout';
+import { HEADER_HEIGHT, SIDEBAR_WIDTH } from '../constants/layout';
 import {
     initializeApp,
     clearCachedUserData,
@@ -24,10 +24,20 @@ import {
 import { ExerciseSidebar } from './ExerciseSidebar';
 import { ExerciseData } from './ExerciseData';
 import veggieWorkout from '../resources/veggie_workout.gif';
+import hamburgerMenu from '../resources/menu.svg';
 
 const ExercisesWrapper = styled.div`
     display: flex;
     height: 100%;
+`;
+
+const ExercisesWrapperMobile = styled.div<{ menuOpen: boolean }>`
+    position: absolute;
+    display: flex;
+    height: 100%;
+    width: calc(100% + ${SIDEBAR_WIDTH}px);
+    left: ${(props) => props.menuOpen ? '0' : `-${SIDEBAR_WIDTH}px`};
+    transition: left 200ms ease-in-out;
 `;
 
 const ExerciseDetailPanel = styled.div`
@@ -45,10 +55,6 @@ const ExerciseBanner = styled.div`
     background: ${RED};
     padding: 15px 10px;
     font-weight: 600;
-`;
-
-const ExerciseMobileBanner = styled(ExerciseBanner)`
-    justify-content: center;
 `;
 
 const LogoutButton = styled.button`
@@ -80,9 +86,9 @@ const LoadingImage = styled.img`
     width: auto;
 `;
 
-const LoadingText = styled.span`
-    margin-top: -80px;
-    width: 250px;
+const LoadingText = styled.span<{ isMobile: boolean }>`
+    margin-top: ${(props) => props.isMobile ? '-20px' : '-80px'};;
+    width: ${(props) => props.isMobile ? '200px' : '250px'};
     min-width: 0;
 `;
 
@@ -107,6 +113,7 @@ interface State {
     loadingText: string;
     numTextUpdates: number;
     isMobile: boolean;
+    menuOpen: boolean;
 }
 
 const loadingTexts = [
@@ -128,6 +135,7 @@ export class UnconnectedExercises extends React.PureComponent<Props, State> {
         loadingText: 'Loading workouts.',
         numTextUpdates: 0,
         isMobile: isMobile(),
+        menuOpen: false,
     };
     private loadingTextTimeout: number | void = undefined;
 
@@ -179,26 +187,50 @@ export class UnconnectedExercises extends React.PureComponent<Props, State> {
         this.loadingTextTimeout = setTimeout(this.updateText, 500);
     }
 
+    private toggleMenu = () => this.setState({ menuOpen: !this.state.menuOpen });
+
+    private selectExercise = (exerciseId: number) => {
+        if (this.state.menuOpen) {
+            this.toggleMenu();
+        }
+        this.props.setSelectedExerciseId(exerciseId);
+    }
+
     public render() {
         if (this.props.isLoading) {
             return (
                 <LoadingScreen>
                     <LoadingImage src={veggieWorkout} alt="loading image" />
-                    <LoadingText>{this.state.loadingText}</LoadingText>
+                    <LoadingText isMobile={this.state.isMobile}>{this.state.loadingText}</LoadingText>
                 </LoadingScreen>
             )
         }
 
         if (this.state.isMobile) {
             return (
-                <ExercisesWrapper>
+                <ExercisesWrapperMobile menuOpen={this.state.menuOpen}>
+                    <ExerciseSidebar
+                        exercises={this.props.exercises}
+                        selectedExerciseId={this.props.selectedExerciseId}
+                        isMobile={this.state.isMobile}
+                        logout={this.logout}
+                        setSelectedExerciseId={this.selectExercise}
+                    />
                     <ExerciseDetailPanel>
-                        <ExerciseMobileBanner>
+                        <ExerciseBanner>
+                            <img
+                                width={16}
+                                height={16}
+                                src={hamburgerMenu}
+                                alt="menu"
+                                onClick={this.toggleMenu}
+                            />
                             <span>{this.props.exerciseInfo && this.props.exerciseInfo.name}</span>
-                        </ExerciseMobileBanner>
+                            <span />
+                        </ExerciseBanner>
                         <ExerciseData exercise={this.props.exerciseInfo} data={this.props.exerciseData} isMobile/>
                     </ExerciseDetailPanel>
-                </ExercisesWrapper>
+                </ExercisesWrapperMobile>
             )
         }
 
@@ -207,6 +239,8 @@ export class UnconnectedExercises extends React.PureComponent<Props, State> {
                 <ExerciseSidebar
                     exercises={this.props.exercises}
                     selectedExerciseId={this.props.selectedExerciseId}
+                    isMobile={this.state.isMobile}
+                    logout={this.logout}
                     setSelectedExerciseId={this.props.setSelectedExerciseId}
                 />
                 <ExerciseDetailPanel>

@@ -10,6 +10,8 @@ describe('ExerciseSidebar component', () => {
             <ExerciseSidebar
                 exercises={exercises}
                 selectedExerciseId={1}
+                isMobile={false}
+                logout={() => {}}
                 setSelectedExerciseId={() => {}}
             />
         );
