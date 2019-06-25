@@ -41,3 +41,7 @@ export function toSingleSet(singleSet: ISingleSetRaw): ISingleSet {
 export function getOneRepMax(weight: number, reps: number) {
     return weight * (36.0 / (37 - reps));
 }
+
+export function toDisplayNumber(value: number) {
+    return Math.round(value*1e2) / 1e2;
+}

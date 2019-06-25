@@ -3,6 +3,8 @@ import { RouteChildrenProps } from 'react-router';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { AuthManager } from '../auth/AuthManager';
+import { RED } from '../constants/colors';
+import { HEADER_HEIGHT } from '../constants/layout';
 import {
     initializeApp,
     clearCachedUserData,
@@ -20,10 +22,28 @@ import {
     IWorkoutExercise,
 } from '../store/types';
 import { ExerciseSidebar } from './ExerciseSidebar';
+import { ExerciseData } from './ExerciseData';
 
 const ExercisesWrapper = styled.div`
     display: flex;
     height: 100%;
+`;
+
+const ExerciseDetailPanel = styled.div`
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+`;
+
+const ExerciseBanner = styled.div`
+    display: flex;
+    justify-content: space-between;
+    height: ${HEADER_HEIGHT}px;
+    color: white;
+    background: ${RED};
+    padding: 15px 10px;
+    font-weight: 600;
 `;
 
 interface IStateProps {
@@ -61,8 +81,14 @@ export class UnconnectedExercises extends React.PureComponent<Props, {}> {
                     selectedExerciseId={this.props.selectedExerciseId}
                     setSelectedExerciseId={this.props.setSelectedExerciseId}
                 />
-                Exercises go here!
-                <button onClick={this.logout}>Log out</button>
+                <ExerciseDetailPanel>
+                    <ExerciseBanner>
+                        <span />
+                        <span>{this.props.exerciseInfo && this.props.exerciseInfo.name}</span>
+                        <button onClick={this.logout}>Log out</button>
+                    </ExerciseBanner>
+                    <ExerciseData exercise={this.props.exerciseInfo} data={this.props.exerciseData} />
+                </ExerciseDetailPanel>
             </ExercisesWrapper>
         );
     }

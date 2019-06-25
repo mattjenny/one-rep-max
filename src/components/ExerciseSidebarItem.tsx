@@ -7,20 +7,27 @@ import {
     GRAY_HIGHLIGHTED,
     GRAY_HOVER,
 } from '../constants/colors';
+import { toDisplayNumber } from '../store/util';
 
 interface StyledWrapperProps {
     isSelected: boolean;
+    isSelectable: boolean;
 }
 
 const ExerciseSidebarItemComponent = styled.li<StyledWrapperProps>`
     height: 100px;
     padding: 0 10px;
     width: 100%;
-    background: ${(props: StyledWrapperProps) => props.isSelected ? GRAY_HIGHLIGHTED : GRAY};
+    ${(props: StyledWrapperProps) => props.isSelected ? `background: ${GRAY_HIGHLIGHTED};` : ''}
     cursor: pointer;
 
     &:hover {
-        background: ${(props: StyledWrapperProps) => props.isSelected ? GRAY_HIGHLIGHTED : GRAY_HOVER};
+        ${(props: StyledWrapperProps) => {
+            if (props.isSelectable) {
+                return `background: ${props.isSelected ? GRAY_HIGHLIGHTED : GRAY_HOVER};`;
+            }
+            return '';
+        }
     }
 `;
 
@@ -52,21 +59,19 @@ const SecondaryText = styled.div`
 
 export interface IExerciseSidebarItemProps {
     exercise: IDisplayExercise;
-    selectedExerciseId: number | void;
-    setSelectedExerciseId(exerciseId: number): void;
+    isSelected?: boolean;
+    setSelectedExerciseId?(exerciseId: number): void;
 }
 
-function toDisplayNumber(value: number) {
-    return Math.round(value*1e2) / 1e2;
-}
-
-export function ExerciseSidebarItem({ exercise, selectedExerciseId, setSelectedExerciseId }: IExerciseSidebarItemProps) {
+export function ExerciseSidebarItem({ exercise, isSelected, setSelectedExerciseId }: IExerciseSidebarItemProps) {
     function handleClick() {
-        setSelectedExerciseId(exercise.id);
+        if (setSelectedExerciseId) {
+            setSelectedExerciseId(exercise.id);
+        }
     }
 
     return (
-        <ExerciseSidebarItemComponent onClick={handleClick} isSelected={selectedExerciseId === exercise.id}>
+        <ExerciseSidebarItemComponent onClick={handleClick} isSelected={!!isSelected} isSelectable={setSelectedExerciseId != null}>
             <ExerciseSidebarItemInner>
                 <PrimaryText>
                     <span>{exercise.name}</span>

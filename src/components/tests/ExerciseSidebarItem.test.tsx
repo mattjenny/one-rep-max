@@ -8,7 +8,7 @@ describe('ExerciseSidebarItem component', () => {
         const wrapper = shallow(
             <ExerciseSidebarItem
                 exercise={exercises[0]}
-                selectedExerciseId={1}
+                isSelected
                 setSelectedExerciseId={() => {}}
             />
         );

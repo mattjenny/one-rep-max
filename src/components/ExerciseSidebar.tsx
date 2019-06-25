@@ -58,7 +58,7 @@ export function ExerciseSidebar(props: IExerciseSidebarProps) {
                     <ExerciseSidebarItem
                         key={exercise.id}
                         exercise={exercise}
-                        selectedExerciseId={props.selectedExerciseId}
+                        isSelected={props.selectedExerciseId === exercise.id}
                         setSelectedExerciseId={props.setSelectedExerciseId}
                     />
                 ))}

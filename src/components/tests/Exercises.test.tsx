@@ -10,10 +10,10 @@ describe('Login component', () => {
                 userId={1}
                 selectedExerciseId={undefined}
                 exerciseInfo={{
-                    id: 0,
-                    name: 'Select an exercise to view details.',
-                    theoreticalOneRepMax: 0,
-                    mostRecentDate: new Date(0),
+                    id: 1,
+                    name: 'Barbell Bench Press',
+                    theoreticalOneRepMax: 200,
+                    mostRecentDate: new Date('2019-06-10'),
                 }}
                 exerciseData={[]}
                 setSelectedExerciseId={() => {}}
@@ -25,6 +25,6 @@ describe('Login component', () => {
                 match={{} as any}
             />
         );
-        expect(wrapper.text().includes('Exercises go here')).toBe(true);
+        expect(wrapper.text().includes('Barbell Bench Press')).toBe(true);
     })
 })
