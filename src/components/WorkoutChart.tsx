@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import styled from 'styled-components';
 import {
     VictoryChart,
@@ -13,7 +13,9 @@ import { DARK_GRAY, GREEN } from '../constants/colors';
 import { IWorkoutExercise } from '../store/types';
 import { chartTheme } from './chartTheme';
 
-const WorkoutChartWrapper = styled.div``;
+const WorkoutChartWrapper = styled.div`
+    height: 100%;
+`;
 
 export interface IWorkoutChartProps {
     data: IWorkoutExercise[];
@@ -21,8 +23,19 @@ export interface IWorkoutChartProps {
 }
 
 export function WorkoutChart({ data, domain }: IWorkoutChartProps) {
+    const [height, setHeight] = useState<number | undefined>(undefined);
+    
+    const measuredRef = useCallback(node => {
+        if (node !== null) {
+          const boundingBox = node.getBoundingClientRect();
+          if (boundingBox.height && boundingBox.width && boundingBox.width / boundingBox.height > 1.5) {
+              setHeight(boundingBox.height * 0.5);
+          }
+        }
+      }, []);
+
     return (
-        <WorkoutChartWrapper>
+        <WorkoutChartWrapper ref={measuredRef}>
             <svg width="0" height="0">
                 <defs>
                     <linearGradient
@@ -37,7 +50,7 @@ export function WorkoutChart({ data, domain }: IWorkoutChartProps) {
                     </linearGradient>
                 </defs>
             </svg>
-            <VictoryChart theme={chartTheme}>
+            <VictoryChart theme={chartTheme} height={height}>
                 <VictoryGroup
                     data={data}
                     domain={domain}

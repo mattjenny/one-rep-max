@@ -13,6 +13,7 @@ import {
     GREEN,
     RED,
     WARN,
+    GREEN_DISABLED,
 } from '../constants/colors';
 import { isMobile } from '../util';
 
@@ -71,13 +72,13 @@ const FormInput = styled.input`
 `;
 
 const SubmitButton = styled.button`
-    background: ${GREEN};
+    background: ${(props) => props.disabled ? GREEN_DISABLED : GREEN};
     border: none;
     border-radius: 4px;
-    color: white;
+    color: ${(props) => props.disabled ? 'rgba(255, 255, 255, 0.5)' : 'white'};
     font-weight: 700;
     height: 30px;
-    width: 100px;
+    width: 120px;
     font-size: 16px;
     float: right;
 `;
@@ -91,6 +92,7 @@ interface State {
     password: string;
     redirect: boolean;
     invalid: boolean;
+    loading: boolean;
 }
 
 interface IDispatchProps {
@@ -107,6 +109,7 @@ export class UnconnectedLogin extends React.PureComponent<Props, State> {
             password: '',
             redirect: AuthManager.isAuthenticated(),
             invalid: false,
+            loading: false,
         };
     }
 
@@ -142,7 +145,9 @@ export class UnconnectedLogin extends React.PureComponent<Props, State> {
                                 />
                             </FormItem>
                         </FormItems>
-                        <SubmitButton type="submit">Login</SubmitButton>
+                        <SubmitButton type="submit" disabled={this.state.loading}>
+                            {this.state.loading ? 'Logging in...' : 'Login'}
+                        </SubmitButton>
                     </form>
                 </LoginPanel>
             </LoginWrapper>
@@ -159,6 +164,7 @@ export class UnconnectedLogin extends React.PureComponent<Props, State> {
     public handleSubmission = (event: any) => {
         event.preventDefault();
         const { email, password } = this.state;
+        this.setState({ loading: true });
 
         NetworkClient.getUsersWithAuthInfo({ email, password })
             .then((response) => {
@@ -169,10 +175,10 @@ export class UnconnectedLogin extends React.PureComponent<Props, State> {
                 });
                 const userId = currentUser && currentUser.id;
                 AuthManager.setSessionCookie({ email, password, userId })
-                this.setState({ redirect: true });
+                this.setState({ redirect: true, loading: false });
             })
             .catch(() => {
-                this.setState({ invalid: true });
+                this.setState({ invalid: true, loading: false });
             });
     }
 

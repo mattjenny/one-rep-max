@@ -5,6 +5,7 @@ import { DARK_GRAY, TEXT_GRAY } from '../constants/colors';
 import { IDisplayExercise, IWorkoutExercise } from '../store/types';
 import { toDisplayNumber } from '../util';
 import { WorkoutChart } from './WorkoutChart';
+import { HEADER_HEIGHT } from '../constants/layout';
 
 interface IExerciseDataWrapperProps { 
     isMobile: boolean;
@@ -12,6 +13,7 @@ interface IExerciseDataWrapperProps {
 
 const ExerciseDataWrapper = styled.div<IExerciseDataWrapperProps>`
     background: ${DARK_GRAY};
+    height: calc(100% - ${HEADER_HEIGHT}px);
     width: 100%;
     flex: 1 1 auto;
     padding: ${(props: IExerciseDataWrapperProps) => props.isMobile ? '20px 10px' : '80px'};
