@@ -29,7 +29,9 @@ export function WorkoutChart({ data, domain }: IWorkoutChartProps) {
         if (node !== null) {
           const boundingBox = node.getBoundingClientRect();
           if (boundingBox.height && boundingBox.width && boundingBox.width / boundingBox.height > 1.5) {
-              setHeight(boundingBox.height * 0.5);
+              // Victory hard codes SVG width to 450, height to 300, and scales to width 100%
+              const scaleFactor = boundingBox.width / 450;
+              setHeight(boundingBox.height / scaleFactor);
           }
         }
       }, []);
