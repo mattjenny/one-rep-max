@@ -1,14 +1,11 @@
-import { devBaseUrl, prodBaseUrl } from './constants';
+import { prodBaseUrl } from './constants';
 import { fetchJson, fetchJsonWithAuthInfo } from './fetch';
 import { IAuthInfo } from '../auth/types';
 import { IUser } from '../store/types';
 import { IExerciseRaw, IWorkoutRaw, ISingleSetRaw } from './types';
 
 function getBaseUrl() {
-    if (process.env.NODE_ENV === 'production' || true) {
-        return prodBaseUrl;
-    }
-    return devBaseUrl;
+    return prodBaseUrl;
 }
 
 class NetworkClientSingleton {
