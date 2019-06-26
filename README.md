@@ -1,5 +1,7 @@
 # One rep max app
 
+Link: https://one-rep-max-matt.herokuapp.com
+
 ## Overview
 This project allows a user to log in and view graphs of theoretical one-rep max values over time for each exercise they have performed. The app is optimized for web and mobile, has a responsive feel, and is architected to be easily expanded upon in the future. User sessions are stored in cookies and active for 24 hours. When viewing a graph, users can hover over points to view details about individual workouts.
 
