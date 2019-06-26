@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 import { ExerciseData } from '../ExerciseData';
-import { exercises } from './testConstants';
+import { exercises, domain } from './testConstants';
 
 describe('ExerciseData component', () => {
     it('Renders the component', () => {
@@ -9,6 +9,7 @@ describe('ExerciseData component', () => {
             <ExerciseData
                 exercise={exercises[0]}
                 data={[]}
+                domain={domain}
                 isMobile={false}
             />
         );

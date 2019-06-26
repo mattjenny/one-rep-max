@@ -2,6 +2,7 @@ import React from 'react';
 import { RouteChildrenProps } from 'react-router';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { DomainPropType } from 'victory';
 import { AuthManager } from '../auth/AuthManager';
 import { RED, GRAY, TEXT_GRAY } from '../constants/colors';
 import { HEADER_HEIGHT, SIDEBAR_WIDTH } from '../constants/layout';
@@ -15,6 +16,7 @@ import {
     selectSelectedExerciseId,
     selectExerciseInfo,
     selectExerciseData,
+    selectDomain,
 } from '../store/selectors';
 import {
     IState,
@@ -100,6 +102,7 @@ interface IStateProps {
     selectedExerciseId: number | void;
     exerciseInfo: IDisplayExercise;
     exerciseData: IWorkoutExercise[];
+    domain: DomainPropType;
 }
 
 interface IDispatchProps {
@@ -228,7 +231,12 @@ export class UnconnectedExercises extends React.PureComponent<Props, State> {
                             <span>{this.props.exerciseInfo && this.props.exerciseInfo.name}</span>
                             <span />
                         </ExerciseBanner>
-                        <ExerciseData exercise={this.props.exerciseInfo} data={this.props.exerciseData} isMobile/>
+                        <ExerciseData
+                            exercise={this.props.exerciseInfo}
+                            data={this.props.exerciseData}
+                            domain={this.props.domain}
+                            isMobile
+                        />
                     </ExerciseDetailPanel>
                 </ExercisesWrapperMobile>
             )
@@ -249,7 +257,12 @@ export class UnconnectedExercises extends React.PureComponent<Props, State> {
                         <span>{this.props.exerciseInfo && this.props.exerciseInfo.name}</span>
                         <LogoutButton onClick={this.logout}>Log out</LogoutButton>
                     </ExerciseBanner>
-                    <ExerciseData exercise={this.props.exerciseInfo} data={this.props.exerciseData} isMobile={false}/>
+                    <ExerciseData
+                        exercise={this.props.exerciseInfo}
+                        data={this.props.exerciseData}
+                        domain={this.props.domain}
+                        isMobile={false}
+                    />
                 </ExerciseDetailPanel>
             </ExercisesWrapper>
         );
@@ -269,6 +282,7 @@ function mapStateToProps(state: IState): IStateProps {
         selectedExerciseId: selectSelectedExerciseId(state),
         exerciseInfo: selectExerciseInfo(state),
         exerciseData: selectExerciseData(state),
+        domain: selectDomain(state),
     };
 }
 

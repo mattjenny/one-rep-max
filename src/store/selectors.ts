@@ -1,5 +1,6 @@
 import keyBy from 'lodash.keyby';
 import { createSelector } from 'reselect';
+import { DomainPropType } from 'victory';
 import {
     IState,
     ISingleSet,
@@ -157,6 +158,43 @@ export const selectExerciseData = createSelector(
         data.sort((a: IWorkoutExercise, b: IWorkoutExercise) => a.x.getTime() - b.x.getTime())
         return data;
     }
+)
+
+export const selectDomain = createSelector<IState, Array<IWorkoutExercise>, DomainPropType>(
+    selectExerciseData,
+    (data: IWorkoutExercise[]): DomainPropType => {
+        if (data.length === 0) {
+            return {
+                x: [0, 10],
+                y: [0, 10],
+            };
+        }
+        let minY = data[0].y;
+        let maxY = data[0].y;
+        let minX = data[0].x.getTime();
+        let maxX = data[0].x.getTime();
+        data.forEach((point: IWorkoutExercise) => {
+            if (point.y < minY) {
+                minY = point.y;
+            }
+            if (point.y > maxY) {
+                maxY = point.y;
+            }
+            if (point.x.getTime() < minX) {
+                minX = point.x.getTime();
+            }
+            if (point.x.getTime() > maxX) {
+                maxX = point.x.getTime();
+            }
+        });
+    
+        const yPadding = Math.max(0.1 * (maxY - minY), 5);
+    
+        return {
+            x: [minX, maxX],
+            y: [minY - yPadding, maxY + yPadding],
+        };
+    },
 )
 
 export const selectSingleSetsByExercise = createSelector(

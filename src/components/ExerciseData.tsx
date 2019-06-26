@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { DomainPropType } from 'victory';
 import { DARK_GRAY, TEXT_GRAY } from '../constants/colors';
 import { IDisplayExercise, IWorkoutExercise } from '../store/types';
 import { toDisplayNumber } from '../util';
@@ -42,9 +43,10 @@ export interface IExerciseDataProps {
     exercise: IDisplayExercise;
     data: IWorkoutExercise[];
     isMobile: boolean;
+    domain: DomainPropType;
 }
 
-export function ExerciseData({ exercise, data, isMobile }: IExerciseDataProps) {
+export function ExerciseData({ exercise, data, isMobile, domain }: IExerciseDataProps) {
     return (
         <ExerciseDataWrapper isMobile={isMobile}>
             <ChartHeader>
@@ -57,7 +59,7 @@ export function ExerciseData({ exercise, data, isMobile }: IExerciseDataProps) {
                     <span>lbs</span>
                 </ChartHeaderSecondaryText>
             </ChartHeader>
-            <WorkoutChart data={data} />
+            <WorkoutChart data={data} domain={domain} />
         </ExerciseDataWrapper>
     );
 }

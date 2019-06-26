@@ -13,6 +13,7 @@ import {
     selectSelectedExerciseId,
     selectExerciseInfo,
     selectExerciseData,
+    selectDomain,
 } from '../selectors';
 import { getOneRepMax } from '../../util';
 import {
@@ -110,5 +111,12 @@ describe('selectors for derived state', () => {
                 setsWithDifferentMax: 0,
             },
         ]);
+    })
+
+    it('Selects domain bounds for the chart', () => {
+        expect(selectDomain(store.getState())).toMatchObject({
+            x: [new Date('2019-06-07 1:00').getTime(), new Date('2019-06-14 3:00').getTime()],
+            y: [119.13793103448276, 160.17241379310346],
+        })
     })
 })

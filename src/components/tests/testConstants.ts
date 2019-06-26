@@ -1,4 +1,5 @@
 import { getOneRepMax } from '../../util';
+import { DomainPropType } from 'victory';
 
 export const exercises = [
     {
@@ -49,3 +50,8 @@ export const chartData = [
         label: 'Test label3',
     },
 ];
+
+export const domain: DomainPropType = {
+    x: [new Date('2019-06-07 1:00').getTime(), new Date('2019-06-14 3:00').getTime()],
+    y: [119.13793103448276, 160.17241379310346],
+};

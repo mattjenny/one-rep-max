@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 import { UnconnectedExercises } from '../Exercises';
-import { exercises } from './testConstants'; 
+import { exercises, domain } from './testConstants'; 
 
 describe('Login component', () => {
     it('Renders the component', () => {
@@ -17,6 +17,7 @@ describe('Login component', () => {
                     mostRecentDate: new Date('2019-06-10'),
                 }}
                 exerciseData={[]}
+                domain={domain}
                 setSelectedExerciseId={() => {}}
                 exercises={exercises}
                 initialize={() => {}}
