@@ -20,6 +20,7 @@ The page layout is responsive to resizing, and on small screens, the sidebar is 
 * CSS-in-JS: [Styled-components](https://www.styled-components.com/)
 * Testing framework: [Jest](https://jestjs.io/)
 * React component testing: [Enzyme](https://github.com/airbnb/enzyme)
+* Function spying in tests: [Sinon](https://sinonjs.org/)
 * Other libraries: react-redux, lodash.keyby, history, whatwg-fetch
 
 ## Testing
