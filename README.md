@@ -5,20 +5,22 @@ This project allows a user to log in and view graphs of theoretical one-rep max 
 
 ## Architecture and libraries
 
-This project is build on a React/Redux/Typescript stack and was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is build on a React/Redux/Typescript stack and was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). Aside from a small handful of app-wide styles defined in `App.css`, all styling is handled in Javascript via `Styled-components`. Due to the simplicity of the app and custom design palette, no design framework was used. Network calls are made using fetch with the `whatwg-fetch` polyfill and use custom classes to add the appropriate auth headers from the auth info stored in the user's cookie. Most logic derived from the redux store, aside from the final presentational formatting, is handled in [Reselect](https://github.com/reduxjs/reselect) selectors. Only the root `Login` and `Exercises` components are connected to the redux store; data is passed to all downstream components via vanilla React props.
+
+The page layout is responsive to resizing, and on small screens, the sidebar is collapsed behind a hamburger menu. Smooth animation on menu opening, hover styling on sidebar items, and tooltips on graph data points give the page a responsive feel.
 
 ### Libraries
-View layer: [React](https://reactjs.org/)
-State management: [Redux](https://redux.js.org/)
-Side effects: [Redux-saga](https://github.com/redux-saga/redux-saga)
-Type safety: [Typescript](https://www.typescriptlang.org/)
-Derived state and memoization: [Reselect](https://github.com/reduxjs/reselect)
-Charting: [Victory](https://github.com/FormidableLabs/victory)
-Routing: [React-router](https://github.com/ReactTraining/react-router)
-CSS-in-JS: [Styled-components](https://www.styled-components.com/)
-Testing framework: [Jest](https://jestjs.io/)
-React component testing: [Enzyme](https://github.com/airbnb/enzyme)
-Other libraries: react-redux, lodash.keyby, history, whatwg-fetch
+* View layer: [React](https://reactjs.org/)
+* State management: [Redux](https://redux.js.org/)
+* Side effects: [Redux-saga](https://github.com/redux-saga/redux-saga)
+* Type safety: [Typescript](https://www.typescriptlang.org/)
+* Derived state and memoization: [Reselect](https://github.com/reduxjs/reselect)
+* Charting: [Victory](https://github.com/FormidableLabs/victory)
+* Routing: [React-router](https://github.com/ReactTraining/react-router)
+* CSS-in-JS: [Styled-components](https://www.styled-components.com/)
+* Testing framework: [Jest](https://jestjs.io/)
+* React component testing: [Enzyme](https://github.com/airbnb/enzyme)
+* Other libraries: react-redux, lodash.keyby, history, whatwg-fetch
 
 ## Testing
 
