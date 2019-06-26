@@ -6,7 +6,7 @@ import {
     GRAY_HIGHLIGHTED,
     GRAY_HOVER,
 } from '../constants/colors';
-import { toDisplayNumber } from '../store/util';
+import { toDisplayNumber } from '../util';
 
 interface StyledWrapperProps {
     isSelected: boolean;

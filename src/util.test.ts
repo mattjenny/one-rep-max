@@ -1,4 +1,4 @@
-import { getOneRepMax } from '../util';
+import { getOneRepMax } from './util';
 
 describe('store util functions', () => {
     it('calculates theoretical one rep max', () => {

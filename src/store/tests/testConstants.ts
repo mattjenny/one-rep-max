@@ -1,4 +1,4 @@
-import { getOneRepMax } from '../util';
+import { getOneRepMax } from '../../util';
 
 export const user1 = {
     email: 'test@example.com',

@@ -2,12 +2,12 @@ import {
     IExerciseRaw,
     IWorkoutRaw,
     ISingleSetRaw,
-} from '../network/types';
+} from './network/types';
 import {
     IExercise,
     IWorkout,
     ISingleSet,
-} from './types';
+} from './store/types';
 
 export function toExercise(exercise: IExerciseRaw): IExercise {
     return {
@@ -53,4 +53,11 @@ const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', '
 export function getDateStr(d: number, includeYear = false): string {
     const date = new Date(d);
     return `${months[date.getMonth()]} ${date.getDate()}${includeYear ? ` ${date.getFullYear()}` : ''}`
+}
+
+export function isMobile() {
+    const windowWidth = window.innerWidth
+        || (document.documentElement && document.documentElement.clientWidth)
+        || document.body.clientWidth;
+    return windowWidth < 800;
 }

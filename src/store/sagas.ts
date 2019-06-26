@@ -20,7 +20,7 @@ import {
     toExercise,
     toWorkout,
     toSingleSet,
-} from './util';
+} from '../util';
 import { ISingleSetRaw } from '../network/types';
 
 function* initialize(action: InitializeAppAction): IterableIterator<any> {

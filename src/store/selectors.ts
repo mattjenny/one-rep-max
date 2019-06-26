@@ -8,7 +8,7 @@ import {
     IWorkoutExercise,
     IWorkout,
 } from './types';
-import { getDateStr, toDisplayNumber } from './util';
+import { getDateStr, toDisplayNumber } from '../util';
 
 const selectSingleSets = (state: IState) => state.singleSets;
 

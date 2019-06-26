@@ -21,6 +21,7 @@ import {
     IDisplayExercise,
     IWorkoutExercise,
 } from '../store/types';
+import { isMobile } from '../util';
 import { ExerciseSidebar } from './ExerciseSidebar';
 import { ExerciseData } from './ExerciseData';
 import veggieWorkout from '../resources/veggie_workout.gif';
@@ -122,13 +123,6 @@ const loadingTexts = [
     'Drawing graphs.',
     'Loading workouts.',
 ]
-
-function isMobile() {
-    const windowWidth = window.innerWidth
-        || (document.documentElement && document.documentElement.clientWidth)
-        || document.body.clientWidth;
-    return windowWidth < 800;
-}
 
 export class UnconnectedExercises extends React.PureComponent<Props, State> {
     public state = {

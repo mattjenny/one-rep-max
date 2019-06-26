@@ -14,7 +14,7 @@ import {
     selectExerciseInfo,
     selectExerciseData,
 } from '../selectors';
-import { getOneRepMax } from '../util';
+import { getOneRepMax } from '../../util';
 import {
     sets,
     exercises,

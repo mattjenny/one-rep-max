@@ -14,6 +14,7 @@ import {
     RED,
     WARN,
 } from '../constants/colors';
+import { isMobile } from '../util';
 
 const LoginWrapper = styled.div`
     display: flex;
@@ -29,7 +30,7 @@ const LoginPanel = styled.div`
     padding: 10px 20px;
     width: 450px;
     max-width: 100%;
-    height: 300px;
+    height: ${() => isMobile() ? '320px' : '300px'};
     max-height: 100%;
     background: ${GRAY};
     color: white;
